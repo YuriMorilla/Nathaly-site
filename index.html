@@ -1,0 +1,1101 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><base href="https://d16ilfvy4mv02r.cloudfront.net/workspaces/zMlPWW9FBRGWDuS8hcCTtDsM6BzjNdsl/fb588813-c2d6-41b7-9e10-b7b1f2843279/files/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>ARAUCO | Torre de Controle Transportadora - Sucuriú</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul:#0B3D6E; --marrom:#6F4A2E; --marromEscuro:#4A3018; --laranja:#C85A17; --verde:#146C36;
+    --bg:#EFEAE0; --panel:#FFFFFF; --head:#0B3D6E;
+    --text:#211A12; --muted:#6B5F4E; --line:#DED2B8;
+    --ok:#146530; --warn:#9C6E00; --warn-text:#7A5600; --danger:#B3241F;
+    --font-display:"Montserrat","Segoe UI",Arial,sans-serif;
+    --font-body:"Inter","Segoe UI",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{height:100%;overflow:hidden;}
+  #appContent{display:flex;flex-direction:column;flex:1;min-height:0;width:100%;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
+  ::-webkit-scrollbar{width:14px;height:14px;}
+  ::-webkit-scrollbar-track{background:rgba(0,0,0,.05);}
+  ::-webkit-scrollbar-thumb{background:#C4AF80;border-radius:8px;border:3px solid transparent;background-clip:padding-box;}
+  ::-webkit-scrollbar-thumb:hover{background:#B39860;background-clip:padding-box;}
+  *{scrollbar-width:auto;scrollbar-color:#C4AF80 rgba(0,0,0,.05);}
+  .wall-outer::-webkit-scrollbar{width:16px;height:16px;}
+  .wall-outer{cursor:grab;}
+  .wall-outer.dragging{cursor:grabbing;user-select:none;}
+  .topbar{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    background:linear-gradient(96deg,#141110 0%,var(--marromEscuro) 45%,#0f3f22 100%);
+    padding:14px 28px;border-bottom:3px solid var(--laranja);position:sticky;top:0;z-index:50;
+    box-shadow:0 4px 16px rgba(0,0,0,.3);
+  }
+  .center-title{text-align:center;}
+  .center-title h1{font-size:25px;margin:0;line-height:1.3;letter-spacing:1.1px;color:#FFFFFF;font-family:var(--font-display);font-weight:800;text-transform:uppercase;text-shadow:0 1px 2px rgba(0,0,0,.35);}
+  .center-title small{display:block;color:#E9DCC4;font-family:var(--font-body);font-weight:500;font-size:12.5px;line-height:1.5;letter-spacing:.3px;margin-top:3px;opacity:.92;}
+  .topbar-row{display:flex;align-items:center;justify-content:space-between;width:100%;}
+  .legend{display:flex;gap:16px;font-size:12.5px;line-height:1.4;color:#F2EAD8;opacity:.95;order:1;font-family:var(--font-body);}
+  .legend span{display:flex;align-items:center;gap:6px;font-weight:600;}
+  .dot{width:10px;height:10px;border-radius:2px;display:inline-block;}
+  .clock{font-size:12.5px;color:#F2EAD8;opacity:.95;text-align:right;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums;}
+
+  .top-actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px;order:2;margin-left:14px;}
+  .export-group{display:flex;flex-direction:row;align-items:center;gap:10px;}
+
+  .theme-switch{position:relative;}
+  .theme-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;font-family:inherit;font-size:16px;font-weight:700;padding:0;border-radius:50%;cursor:pointer;transition:background .15s ease;}
+  .theme-btn:hover{background:rgba(255,255,255,.28);}
+  .theme-menu{position:absolute;top:calc(100% + 8px);right:0;background:#FFFCF5;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.25);padding:6px;display:none;flex-direction:column;gap:2px;min-width:170px;z-index:100;}
+  .theme-menu.open{display:flex;}
+  .theme-menu button{display:flex;align-items:center;gap:8px;background:none;border:0;color:var(--text);font-family:inherit;font-size:11px;font-weight:700;padding:8px 10px;border-radius:6px;cursor:pointer;text-align:left;width:100%;}
+  .theme-menu button:hover{background:#F2E9D8;}
+  .theme-menu button.active{background:var(--verde);color:#fff;}
+
+  .head-actions{display:flex;align-items:center;gap:6px;}
+
+  .edit-toggle-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;font-size:14px;line-height:1;padding:0;border-radius:50%;cursor:pointer;transition:background .15s ease,box-shadow .15s ease;}
+  .edit-toggle-btn:hover{background:rgba(255,255,255,.28);}
+  .edit-toggle-btn.active{background:var(--verde);border-color:var(--verde);box-shadow:0 0 0 2px rgba(20,108,54,.35);}
+
+  body.edit-mode .screen{outline:1px dashed rgba(200,90,23,.55);outline-offset:-1px;}
+  body.edit-mode [data-editable]{cursor:text;border-radius:3px;transition:background .12s ease,box-shadow .12s ease;}
+  body.edit-mode [data-editable]:hover{background:rgba(200,90,23,.10);box-shadow:0 0 0 1px rgba(200,90,23,.35);}
+  body.edit-mode [data-editable]:focus{outline:none;background:rgba(20,108,54,.10);box-shadow:0 0 0 2px var(--verde);}
+  .edit-save-toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);background:#16321f;color:#fff;font-family:var(--font-body);font-size:12.5px;font-weight:600;padding:10px 20px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;z-index:950;}
+  .edit-save-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .export-switch{position:relative;}
+  .export-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;font-family:inherit;font-size:16px;font-weight:700;padding:0;border-radius:50%;cursor:pointer;transition:background .15s ease;}
+  .export-btn:hover{background:rgba(255,255,255,.28);}
+  .export-menu{position:absolute;top:calc(100% + 8px);right:0;background:#FFFCF5;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.25);padding:8px;display:none;flex-direction:column;gap:8px;min-width:240px;max-height:360px;overflow-y:auto;z-index:100;}
+  .export-menu.open{display:flex;}
+  .export-menu select{width:100%;font-family:inherit;font-size:11px;font-weight:700;padding:6px 8px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--text);}
+  .export-menu button{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--verde);border:0;color:#fff;font-family:inherit;font-size:11px;font-weight:800;padding:8px 10px;border-radius:6px;cursor:pointer;width:100%;}
+  .export-menu button:hover{opacity:.9;}
+  .export-menu .divider{height:1px;background:var(--line);margin:2px 0;}
+  .export-menu button.secondary{background:var(--laranja);}
+
+  html[data-theme="dark"]{--bg:#181410;--panel:#231d16;--text:#F2EAD8;--muted:#B8A98C;--line:#3a3126;}
+  html[data-theme="dark"] .kpi{background:linear-gradient(160deg,#2a231a,#211b14);border-color:#3a3126;}
+  html[data-theme="dark"] .kpi .l{color:#C9BB9E;}
+  html[data-theme="dark"] th{background:#5c3d1d;}
+  html[data-theme="dark"] tr.st:hover td{background:#2c2519;}
+  html[data-theme="dark"] .stock-visual, html[data-theme="dark"] .stock-visual .two-col > div, html[data-theme="dark"] .stock-visual .op{background:#231d16;border-color:#3a3126;}
+  html[data-theme="dark"] .maint-flag{background:linear-gradient(120deg,#3a2c0f,#33260d);}
+  html[data-theme="dark"] .maint-flag .txt{color:#F0C878;}
+  html[data-theme="dark"] .theme-menu{background:#231d16;border-color:#3a3126;}
+
+  html[data-theme="hc-light"]{--bg:#FFFFFF;--panel:#FFFFFF;--text:#000000;--muted:#000000;--line:#000000;--ok:#006400;--warn:#7a5200;--warn-text:#5a3c00;--danger:#B00000;}
+  html[data-theme="hc-light"] .screen{border-width:2px;}
+  html[data-theme="hc-light"] .kpi{background:#FFFFFF;border:2px solid #000;}
+  html[data-theme="hc-light"] .kpi .l{color:#000;}
+  html[data-theme="hc-light"] table, html[data-theme="hc-light"] th, html[data-theme="hc-light"] td{border-color:#000;}
+
+  html[data-theme="hc-dark"]{--bg:#000000;--panel:#000000;--text:#FFFFFF;--muted:#FFFFFF;--line:#FFFFFF;--ok:#3DFF7A;--warn:#FFD84D;--warn-text:#FFD84D;--danger:#FF5A5A;}
+  html[data-theme="hc-dark"] .screen{border-width:2px;border-color:#fff;}
+  html[data-theme="hc-dark"] .kpi{background:#000;border:2px solid #fff;}
+  html[data-theme="hc-dark"] .kpi .l{color:#fff;}
+  html[data-theme="hc-dark"] table, html[data-theme="hc-dark"] th, html[data-theme="hc-dark"] td{border-color:#fff;color:#fff;}
+  html[data-theme="hc-dark"] th{background:#000;border:1px solid #fff;}
+  html[data-theme="hc-dark"] .theme-menu{background:#111;border-color:#fff;}
+  html[data-theme="hc-dark"] .theme-menu button{color:#fff;}
+
+  .wall-outer{flex:1;min-height:0;overflow:auto;padding:14px 18px 22px;}
+  .wall{
+    display:grid;
+    grid-template-columns:repeat(4, 620px);
+    grid-template-rows:repeat(4, 348.75px);
+    grid-auto-flow:column;
+    gap:14px;
+    width:max-content;
+    min-width:100%;
+  }
+  .screen{
+    width:620px;height:348.75px;
+    aspect-ratio:16/9;
+    background:var(--panel);border-radius:8px;border:1px solid var(--line);
+    border-left-width:4px;border-left-style:solid;
+    display:flex;flex-direction:column;overflow:hidden;
+    box-shadow:0 1px 2px rgba(33,26,18,.06), 0 2px 8px rgba(33,26,18,.06);
+    min-height:0;min-width:0;
+    transition:box-shadow .18s ease;
+  }
+  .screen:hover{box-shadow:0 4px 14px rgba(33,26,18,.12), 0 1px 3px rgba(33,26,18,.08);}
+  .screen.inbound{border-left-color:var(--marrom);}
+  .screen.outbound{border-left-color:var(--laranja);}
+  .screen.safety{border-left-color:var(--verde);}
+  .screen .head{padding:10px 16px;display:flex;justify-content:space-between;align-items:center;font-size:14.5px;font-weight:700;letter-spacing:.3px;color:#fff;flex:0 0 auto;line-height:1.35;text-align:center;font-family:var(--font-display);}
+  .screen .head span:first-child{display:block;flex:1;}
+  .screen .head .cat{display:block;font-size:14.5px;opacity:.97;font-weight:700;letter-spacing:.5px;margin-bottom:3px;line-height:1.25;text-transform:uppercase;}
+  .screen .head .tag{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:4px;background:rgba(255,255,255,.22);letter-spacing:.6px;text-transform:uppercase;font-family:var(--font-body);}
+  .screen .head .head-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto;}
+  .screen.inbound .head{background:var(--marromEscuro);}
+  .screen.outbound .head{background:#7a3a10;}
+  .screen.safety .head{background:#0f4224;}
+  .screen .head.slim{justify-content:space-between;padding:9px 16px;}
+  .screen .head.slim::before{content:'';}
+  .screen .head.slim .tag{background:rgba(255,255,255,.26);}
+  .screen .body{flex:1;padding:11px 14px;font-size:12.5px;line-height:1.45;font-family:var(--font-body);display:flex;flex-direction:column;gap:7px;overflow-y:auto;overflow-x:hidden;min-height:0;}
+
+  .kpi-row{display:flex;gap:8px;flex:0 0 auto;flex-wrap:wrap;justify-content:center;}
+  .kpi{flex:1;min-width:84px;background:#FBF8F1;border:1px solid var(--line);border-top:2px solid #C9B98D;border-radius:6px;padding:7px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .kpi .v{font-size:21px;font-weight:800;line-height:1.2;font-family:var(--font-display);letter-spacing:.2px;}
+  .kpi .l{font-size:10.5px;color:var(--muted);text-transform:uppercase;font-weight:600;letter-spacing:.3px;line-height:1.35;margin-top:3px;font-family:var(--font-body);}
+  .ok{color:var(--ok);} .warn{color:var(--warn-text);} .danger{color:var(--danger);}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.45;}}
+  .danger.pulse{animation:pulse 1.6s ease-in-out infinite;}
+
+  table{width:100%;border-collapse:collapse;font-size:11.5px;line-height:1.4;flex:0 0 auto;font-family:var(--font-body);}
+  th,td{padding:6px 8px;text-align:center;border-bottom:1px solid var(--line);}
+  tr.st td:first-child{text-align:left;}
+  th{color:#fff;background:var(--marromEscuro);font-size:10px;text-transform:uppercase;font-weight:700;letter-spacing:.4px;position:sticky;top:0;}
+  th:first-child{border-top-left-radius:4px;} th:last-child{border-top-right-radius:4px;}
+  td{font-weight:500;color:var(--text);}
+  tr{transition:background .15s ease;}
+  tr:nth-child(even){background:rgba(74,48,24,.025);}
+  tr.st:hover td{background:#F4ECD9;}
+  tr.st td:first-child{border-left:4px solid transparent;padding-left:8px;}
+  tr.st-ok td:first-child{border-left-color:var(--ok);}
+  tr.st-warn td:first-child{border-left-color:var(--warn);}
+  tr.st-danger td:first-child{border-left-color:var(--danger);}
+  .chip{display:inline-block;padding:3px 9px;border-radius:4px;font-size:10px;line-height:1.3;font-weight:700;letter-spacing:.3px;color:#fff;text-transform:uppercase;}
+  .chip.ok{background:var(--ok);color:#fff;}
+  .chip.warn{background:var(--warn);color:#fff;}
+  .chip.danger{background:var(--danger);color:#fff;}
+
+  .chart-wrap{flex:1 1 140px;position:relative;min-height:120px;}
+  canvas{max-width:100%;max-height:100%;}
+  iframe.embed{width:100%;flex:1;min-height:220px;border:0;border-radius:0 0 10px 10px;}
+  .badge-list{display:flex;flex-wrap:wrap;gap:6px;flex:0 0 auto;justify-content:center;}
+  .badge{font-size:10.5px;padding:4px 10px;border-radius:4px;font-weight:700;letter-spacing:.2px;line-height:1.35;color:#fff;font-family:var(--font-body);}
+  .badge.ok{background:var(--ok);} .badge.warn{background:var(--warn);color:#fff;} .badge.danger{background:var(--danger);}
+  .badge-lg{font-size:12px;padding:5px 12px;}
+  .panel13-bottom .badge{font-size:13px;padding:6px 12px;}
+  .farm-cargo-list{display:flex;flex-direction:column;gap:6px;flex:0 0 auto;align-items:stretch;}
+  .farm-cargo-item{font-size:14.5px;line-height:1.3;font-weight:700;font-family:var(--font-display);color:var(--marromEscuro);background:#FBF8F1;border:1px solid var(--line);border-left:3px solid var(--marrom);border-radius:5px;padding:7px 14px;text-align:center;}
+  .ticker{font-size:10.5px;line-height:1.4;color:var(--muted);border-top:1px solid var(--line);padding-top:5px;font-weight:500;flex:0 0 auto;text-align:center;font-family:var(--font-body);}
+  .two-col{display:flex;gap:8px;flex:1 1 120px;min-height:110px;}
+  .two-col > div{flex:1;min-height:0;position:relative;}
+
+  .truck.ok{color:var(--ok);} .truck.warn{color:var(--warn-text);} .truck.danger{color:var(--danger);}
+  .truck-legend{display:flex;gap:12px;font-size:11px;line-height:1.4;font-weight:700;color:var(--muted);align-items:center;justify-content:center;flex:0 0 auto;flex-wrap:wrap;}
+  .truck-legend span{display:flex;align-items:center;gap:3px;}
+  .stock-visual{display:flex;align-items:stretch;gap:14px;flex:0 0 168px;height:168px;background:#FBF3E0;border-radius:10px;padding:10px 14px;border:1px solid var(--line);}
+  .stock-visual .two-col{flex:1 1 auto;min-width:0;gap:14px;}
+  .stock-visual .two-col > div{min-height:100%;background:#FFFDF8;border-radius:8px;border:1px solid var(--line);padding:4px;}
+  .stock-visual .op{display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:55px;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3));flex:0 0 94px;background:#FFFDF8;border-radius:8px;border:1px solid var(--line);}
+  .stock-visual .op small{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-top:6px;text-align:center;}
+
+  .route-track{position:relative;flex:0 0 120px;height:120px;background:linear-gradient(180deg,#7a6b52,#5c4f3b);border-radius:10px;overflow:hidden;border:1px solid #4a3f2e;}
+  .route-track::before{content:'';position:absolute;left:14px;right:14px;top:50%;height:3px;background:repeating-linear-gradient(90deg,#fff 0 12px,transparent 12px 24px);transform:translateY(-50%);opacity:.55;}
+  .route-track .flag{position:absolute;top:6px;font-size:10.5px;font-weight:800;color:#fff;letter-spacing:.3px;}
+  .route-track .flag.start{left:10px;} .route-track .flag.end{right:10px;}
+  .truck-pos{position:absolute;top:55%;transform:translate(-50%,-50%);width:73px;height:73px;transition:left .3s ease;}
+  .truck-pos svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45));}
+  .truck-pos.ok svg{color:var(--ok);}
+  .truck-pos.warn svg{color:var(--warn);}
+  .truck-pos.danger svg{color:var(--danger);}
+  .truck-pos .ring{position:absolute;inset:-4px;border-radius:50%;border:2px solid transparent;}
+  .truck-pos.ok .ring{border-color:var(--ok);}
+  .truck-pos.warn .ring{border-color:var(--warn);}
+  .truck-pos.danger .ring{border-color:var(--danger);}
+  .truck-pos .lbl{position:absolute;top:66px;left:50%;transform:translateX(-50%);font-size:10.5px;font-weight:800;color:#fff;background:rgba(0,0,0,.55);padding:2px 7px;border-radius:6px;white-space:nowrap;}
+  .maint-flag{display:flex;align-items:center;justify-content:center;text-align:center;gap:10px;background:#FCF3E4;border:1px solid var(--warn);border-left:3px solid var(--warn);border-radius:6px;padding:7px 12px;flex:0 0 auto;}
+  .maint-flag .icon{font-size:22px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.2));}
+  .maint-flag .txt{font-size:10.5px;font-weight:700;color:var(--warn-text);line-height:1.45;text-align:center;font-family:var(--font-body);}
+  .factory-visual{position:relative;flex:0 0 120px;height:120px;border-radius:8px;overflow:hidden;border:1px solid var(--line);}
+  .factory-visual img{width:100%;height:100%;object-fit:cover;display:block;}
+  .factory-visual .cap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,rgba(20,14,6,.75),transparent);color:#fff;font-size:10px;font-weight:800;padding:4px 8px;letter-spacing:.3px;}
+  .factory-icon-block{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex:0 0 auto;padding:8px 0 2px;}
+  .factory-icon-block svg{width:115px;height:115px;display:block;filter:drop-shadow(0 3px 4px rgba(74,48,24,.25));}
+  .factory-icon-block .cap{font-size:11.5px;font-weight:800;color:var(--marromEscuro);letter-spacing:.3px;line-height:1.35;text-align:center;text-transform:uppercase;}
+  .scale-table th, .scale-table td{text-align:center;}
+  .scale-table .plate{font-weight:800;letter-spacing:.3px;}
+  .section-divider{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;color:var(--verde);text-transform:uppercase;letter-spacing:.6px;margin-top:2px;font-family:var(--font-body);}
+  .section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--line);}
+  .fade-in{animation:fadeIn .5s ease both;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .signature-mark{position:fixed;top:10px;right:18px;z-index:900;font-family:'Great Vibes',cursive;font-size:13px;color:#4A3018;opacity:.42;pointer-events:none;letter-spacing:.3px;user-select:none;text-shadow:0 1px 1px rgba(255,255,255,.4);display:flex;align-items:baseline;}
+  .signature-mark .sig-n{font-size:20px;line-height:1;font-weight:400;transform:scaleX(1.25) translateY(2px);display:inline-block;margin-right:1px;}
+  html[data-theme="dark"] .signature-mark, html[data-theme="hc-dark"] .signature-mark{color:#F2EAD8;opacity:.35;}
+  html[data-theme="hc-light"] .signature-mark{color:#000;opacity:.35;}
+
+  .login-gate{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#141110 0%,#2c2013 45%,#0f3f22 100%);padding:20px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .login-box{width:100%;max-width:360px;background:#FFFCF5;border-radius:12px;padding:32px 28px 28px;box-shadow:0 20px 50px rgba(0,0,0,.4);text-align:center;margin:auto;}
+  .login-box .login-brand{font-family:var(--font-display);font-weight:800;font-size:22px;letter-spacing:1.5px;color:var(--marromEscuro);text-transform:uppercase;}
+  .login-box h2{font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--text);margin:8px 0 2px;}
+  .login-box p{font-family:var(--font-body);font-size:11.5px;color:var(--muted);margin:0 0 20px;}
+  .login-field{text-align:left;margin-bottom:14px;}
+  .login-field label{display:block;font-family:var(--font-body);font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;}
+  .login-field input{width:100%;font-family:var(--font-body);font-size:14px;padding:10px 12px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--text);}
+  .login-field input:focus{outline:2px solid var(--verde);outline-offset:1px;}
+  .login-field.has-error input{border-color:var(--danger);}
+  .login-field.has-error input:focus{outline-color:var(--danger);}
+  .login-pass-wrap{position:relative;}
+  .login-pass-wrap input{padding-right:46px;}
+  .login-pass-wrap input::-webkit-credentials-auto-fill-button,
+  .login-pass-wrap input::-webkit-strong-password-auto-fill-button,
+  .login-pass-wrap input::-webkit-contacts-auto-fill-button{visibility:hidden;pointer-events:none;position:absolute;right:0;display:none !important;}
+  .login-pass-wrap input::-ms-reveal,
+  .login-pass-wrap input::-ms-clear{display:none;}
+  .login-pass-toggle{position:absolute;top:0;right:0;height:100%;width:44px;display:flex;align-items:center;justify-content:center;background:none;border:0;cursor:pointer;color:var(--muted);padding:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;z-index:5;pointer-events:auto;}
+  .login-pass-toggle:hover{color:var(--text);}
+  .login-pass-toggle svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .login-pass-toggle .icon-closed{display:none;}
+  .login-pass-toggle.is-visible .icon-open{display:none;}
+  .login-pass-toggle.is-visible .icon-closed{display:block;}
+  .login-error{min-height:16px;font-family:var(--font-body);font-size:11.5px;font-weight:700;color:var(--danger);margin-top:10px;display:flex;align-items:center;justify-content:center;gap:5px;}
+  .login-btn{width:100%;font-family:var(--font-body);font-size:13px;font-weight:700;letter-spacing:.3px;color:#fff;background:var(--verde);border:0;border-radius:6px;padding:13px;cursor:pointer;margin-top:4px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;position:relative;z-index:5;}
+  .login-btn:hover{opacity:.92;}
+  .login-error{min-height:16px;font-family:var(--font-body);font-size:11.5px;font-weight:700;color:var(--danger);margin-top:10px;}
+  .login-foot{margin-top:18px;font-family:var(--font-body);font-size:10px;color:var(--muted);letter-spacing:.2px;}
+
+  @media (max-width:900px){
+    html,body{height:auto;overflow:auto;}
+    .topbar{padding:12px 14px;}
+    .center-title h1{font-size:16px;letter-spacing:.6px;}
+    .center-title small{font-size:10.5px;}
+    .topbar-row{flex-direction:column;align-items:stretch;gap:10px;}
+    .legend{order:1;flex-wrap:wrap;justify-content:center;gap:8px;font-size:10.5px;}
+    .top-actions{order:2;align-items:center;margin-left:0;}
+    .export-group{flex-direction:column;gap:8px;width:100%;}
+    .export-group .clock{text-align:center;}
+    .theme-menu,.export-menu{left:0;right:0;margin:0 auto;}
+    .wall-outer{overflow:visible;padding:12px 10px 24px;}
+    .wall{display:flex;flex-direction:column;grid-template-columns:none;grid-template-rows:none;width:100%;min-width:0;gap:14px;}
+    .screen{width:100%;height:auto;aspect-ratio:auto;min-height:260px;}
+    .screen .body{overflow-y:visible;}
+    .signature-mark{font-size:12px;top:6px;right:10px;opacity:.3;}
+    .login-gate{align-items:flex-start;padding:16px 14px;}
+    .login-box{max-width:320px;padding:26px 20px 22px;}
+    .login-field input{font-size:16px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="login-gate" id="loginGate" style="display:none;">
+  <div class="login-box">
+    <div class="login-brand">ARAUCO</div>
+    <h2>Torre de Controle · Projeto Sucuriú</h2>
+    <p>Acesso restrito — informe suas credenciais</p>
+    <form id="loginForm" autocomplete="on">
+      <div class="login-field" id="loginUserField">
+        <label for="loginUser">Usuário</label>
+        <input type="text" id="loginUser" name="username" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="usuário">
+      </div>
+      <div class="login-field" id="loginPassField">
+        <label for="loginPass">Senha</label>
+        <div class="login-pass-wrap">
+          <input type="password" id="loginPass" name="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="senha">
+          <button type="button" class="login-pass-toggle" id="loginPassToggle" title="Mostrar senha" aria-label="Mostrar senha">
+            <svg class="icon-open" viewBox="0 0 24 24"><path d="M1.5 12s4-7.5 10.5-7.5S22.5 12 22.5 12s-4 7.5-10.5 7.5S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-closed" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 5.2A10.8 10.8 0 0 1 12 5c6.5 0 10.5 7 10.5 7a17.3 17.3 0 0 1-4.1 4.9M6.6 6.6C3.5 8.5 1.5 12 1.5 12s4 7 10.5 7c1.6 0 3-.3 4.3-.9"/><path d="M9.9 10a3 3 0 0 0 4.2 4.2"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="login-btn">Entrar</button>
+    </form>
+    <div class="login-error" id="loginError"></div>
+    <div class="login-foot">Torre de Controle Operacional · Uso Interno</div>
+    <div class="login-foot">Nathaly de Souza Medeiros</div>
+  </div>
+</div>
+
+<div class="signature-mark"><span class="sig-n">N</span>athaly Medeiros</div>
+
+<div id="appContent" style="display:flex;">
+<div class="topbar">
+  <div class="center-title">
+    <h1>ARAUCO — TORRE DE CONTROLE OPERACIONAL</h1>
+    <small>Cadeia de Suprimentos Florestal · Projeto Sucuriú · Monitoramento em Tempo Real</small>
+  </div>
+  <div class="topbar-row">
+    <div class="legend">
+      <span><i class="dot" style="background:var(--marrom)"></i> INBOUND · 4 painéis</span>
+      <span><i class="dot" style="background:var(--laranja)"></i> OUTBOUND · 4 painéis</span>
+      <span><i class="dot" style="background:var(--verde)"></i> SAÚDE, SEGURANÇA E MEIO AMBIENTE · 8 painéis</span>
+    </div>
+    <div class="top-actions">
+      <div class="theme-switch">
+        <button class="theme-btn" id="themeBtn" onclick="toggleThemeMenu()" title="Temas" aria-label="Temas">🎨</button>
+        <div class="theme-menu" id="themeMenu">
+          <button data-theme-opt="light" onclick="setTheme('light')">☀️ Padrão (Claro)</button>
+          <button data-theme-opt="dark" onclick="setTheme('dark')">🌙 Escuro</button>
+          <button data-theme-opt="hc-light" onclick="setTheme('hc-light')">◑ Alto Contraste Claro</button>
+          <button data-theme-opt="hc-dark" onclick="setTheme('hc-dark')">● Alto Contraste Escuro</button>
+        </div>
+      </div>
+      <div class="export-group">
+        <div class="clock" id="clock">--:--:--</div>
+        <button class="edit-toggle-btn" id="editToggleBtn" onclick="toggleEditMode()" title="Editar Painéis" aria-label="Editar Painéis">✏️</button>
+        <div class="export-switch">
+          <button class="export-btn" id="exportBtn" onclick="toggleExportMenu()" title="Exportar Painéis" aria-label="Exportar Painéis">📷</button>
+          <div class="export-menu" id="exportMenu">
+            <select id="panelSelect"></select>
+            <button onclick="exportSelectedPanel()">📷 Baixar Imagem do Painel Selecionado (PNG HD)</button>
+            <div class="divider"></div>
+            <button class="secondary" onclick="exportCompiledView()">🖼️ Abrir Todos os 16 Painéis (Imagem Única)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wall-outer">
+<div class="wall">
+
+  <div class="screen inbound">
+    <div class="head"><span><span class="cat">INBOUND</span>Fila de Descarregamento — Indicadores Operacionais</span><span class="head-actions"><span class="tag">Painel 01</span></span></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="v ok">389</div><div class="l">Veículos recebidos hoje (meta: 28.767 t/dia ÷ 74 t/carga)</div></div>
+        <div class="kpi"><div class="v warn">22</div><div class="l">Veículos em fila de espera</div></div>
+        <div class="kpi"><div class="v danger">5</div><div class="l">Veículos com atraso confirmado</div></div>
+      </div>
+      <div class="chart-wrap"><canvas id="c1"></canvas></div>
+    </div>
+  </div>
+
+  <div class="screen inbound">
+    <div class="head slim"><span>Programação de Chegadas e Desvios por Fornecedor</span><span class="head-actions"><span class="tag">Painel 02</span></span></div>
+    <div class="body">
+      <table>
+        <tr><th>Previsão de Chegada</th><th>Placa</th><th>Fornecedor</th><th>Status</th></tr>
+        <tr class="st st-ok"><td>09:10</td><td>ABC-1D23</td><td>Fazenda Lobo</td><td><span class="chip ok">NO PRAZO</span></td></tr>
+        <tr class="st st-warn"><td>09:25</td><td>QWE-2F45</td><td>Fazenda Indiana</td><td><span class="chip warn">ATENÇÃO</span></td></tr>
+        <tr class="st st-danger"><td>08:50</td><td>JKL-4M12</td><td>Fazenda Bacuri</td><td><span class="chip danger">ATRASADO</span></td></tr>
+        <tr class="st st-ok"><td>10:05</td><td>MNB-7P88</td><td>Fazenda Debrasa</td><td><span class="chip ok">NO PRAZO</span></td></tr>
+      </table>
+      <div class="chart-wrap" style="max-height:70px;"><canvas id="c2"></canvas></div>
+    </div>
+  </div>
+
+  <div class="screen inbound">
+    <div class="head slim"><span>Estoque de Fábrica e Pátio — Cobertura de Madeira</span><span class="head-actions"><span class="tag">Painel 03</span></span></div>
+    <div class="body">
+      <div class="stock-visual">
+        <div class="two-col">
+          <div><canvas id="c3a"></canvas></div>
+          <div><canvas id="c3b"></canvas></div>
+        </div>
+        <div class="op">👷<small>Supervisão</small></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v">28.767 t/dia</div><div class="l">Consumo diário da fábrica (10,5 mi t/ano ÷ 365)</div></div>
+        <div class="kpi"><div class="v warn">6,2 dias</div><div class="l">Cobertura de estoque projetada</div></div>
+        <div class="kpi"><div class="v warn">ATENÇÃO</div><div class="l">Ruptura estimada em 6 dias</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v">400 mil ha</div><div class="l">Base florestal sob manejo sustentável</div></div>
+        <div class="kpi"><div class="v">10,5 mi t/ano</div><div class="l">Consumo anual de eucalipto</div></div>
+        <div class="kpi"><div class="v">3,5 mi t/ano</div><div class="l">Capacidade produtiva — Projeto Sucuriú</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen inbound">
+    <div class="head slim"><span>Recepção e Controle de Qualidade da Matéria-Prima</span><span class="head-actions"><span class="tag">Painel 04</span></span></div>
+    <div class="body">
+      <table class="scale-table">
+        <tr><th>Balança</th><th>Placa Atual</th><th>Origem</th><th>Próxima Placa</th></tr>
+        <tr class="st st-ok"><td>Balança 01</td><td class="plate">ABC-1D23</td><td>Fazenda Lobo</td><td class="plate">QWE-2F45</td></tr>
+        <tr class="st st-ok"><td>Balança 02</td><td class="plate">JKL-4M12</td><td>Fazenda Bacuri</td><td class="plate">MNB-7P88</td></tr>
+        <tr class="st st-warn"><td>Balança 03</td><td class="plate">RTY-9S31</td><td>Fazenda Indiana</td><td class="plate">HGF-3D77</td></tr>
+        <tr class="st st-ok"><td>Balança 04</td><td class="plate">VBN-5K90</td><td>Fazenda Debrasa</td><td class="plate">CVX-6L14</td></tr>
+      </table>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v warn">22</div><div class="l">Veículos em fila de descarga (tempo real)</div></div>
+        <div class="kpi"><div class="v ok">52</div><div class="l">Veículos/hora processados (4 balanças)</div></div>
+        <div class="kpi"><div class="v">13/h</div><div class="l">Taxa média por balança/hora</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v danger">7</div><div class="l">Rejeições e não conformidades detectadas</div></div>
+        <div class="kpi"><div class="v">14,2%</div><div class="l">Umidade média da madeira recebida</div></div>
+      </div>
+      <div class="badge-list">
+        <span class="badge ok badge-lg">Grua — 92% de disponibilidade</span>
+        <span class="badge warn badge-lg">Tombador — 78% de disponibilidade</span>
+      </div>
+      <div class="factory-icon-block">
+        <svg viewBox="0 0 64 64" aria-label="Fábrica Sucuriú">
+          <g><rect x="6" y="30" width="52" height="26" rx="2" fill="#7a5a35"/>
+          <path d="M10 30l10-12v12z" fill="#5c4326"/><path d="M22 30l10-16v16z" fill="#6b4e2e"/><path d="M34 30l10-12v12z" fill="#5c4326"/><path d="M46 30l10-9v9z" fill="#6b4e2e"/>
+          <rect x="14" y="38" width="8" height="8" fill="#FFFCF5" opacity=".85"/><rect x="28" y="38" width="8" height="8" fill="#FFFCF5" opacity=".85"/><rect x="42" y="38" width="8" height="8" fill="#FFFCF5" opacity=".85"/>
+          <rect x="26" y="46" width="12" height="10" fill="#3e2c18"/>
+          <rect x="46" y="14" width="5" height="18" fill="#5c4326"/><ellipse cx="48.5" cy="12" rx="6" ry="4" fill="#b7ac9c" opacity=".8"/></g>
+        </svg>
+        <span class="cap">Fábrica Sucuriú — Pátio de Descarga</span>
+      </div>
+      <div class="maint-flag"><span class="icon">🚧🔧</span><span class="txt">Grua de descarga em manutenção<br>preventiva programada</span></div>
+    </div>
+  </div>
+
+  <div class="screen outbound">
+    <div class="head"><span><span class="cat">OUTBOUND</span>Carregamento Projetado e Realizado</span><span class="head-actions"><span class="tag">Painel 05</span></span></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="v">1.000</div><div class="l">Agendamentos previstos/dia (500 frotas)</div></div>
+        <div class="kpi"><div class="v ok">689</div><div class="l">Carregamentos concluídos até o momento</div></div>
+        <div class="kpi"><div class="v warn">69%</div><div class="l">Índice de atendimento à programação</div></div>
+      </div>
+      <div class="chart-wrap"><canvas id="c5"></canvas></div>
+    </div>
+  </div>
+
+  <div class="screen outbound">
+    <div class="head slim"><span>Controle de Carregamento por Frota</span><span class="head-actions"><span class="tag">Painel 06</span></span></div>
+    <div class="body">
+      <table>
+        <tr><th>Fazenda</th><th>DMT — Distância Média Total (km)</th><th>Nº de Gruas</th><th>Frotas por Grua</th></tr>
+        <tr class="st st-ok"><td>Fazenda Lobo</td><td>168 km</td><td>4</td><td>4</td></tr>
+        <tr class="st st-warn"><td>Fazenda Indiana</td><td>212 km</td><td>3</td><td>4</td></tr>
+        <tr class="st st-danger"><td>Fazenda Bacuri</td><td>241 km</td><td>2</td><td>4</td></tr>
+        <tr class="st st-ok"><td>Fazenda Debrasa</td><td>194 km</td><td>3</td><td>4</td></tr>
+      </table>
+      <table>
+        <tr><th>Fazenda</th><th>Frota</th><th>Frotas no Horto Agora</th><th>Status</th></tr>
+        <tr class="st st-ok"><td>Fazenda Lobo</td><td>Frota Própria</td><td>7</td><td><span class="chip ok">CONFIRM.</span></td></tr>
+        <tr class="st st-warn"><td>Fazenda Indiana</td><td>Frota Terceira</td><td>4</td><td><span class="chip warn">DOC PEND.</span></td></tr>
+        <tr class="st st-danger"><td>Fazenda Bacuri</td><td>Frota Terceira</td><td>2</td><td><span class="chip danger">ATRASADO</span></td></tr>
+      </table>
+      <div class="farm-cargo-list">
+        <span class="farm-cargo-item ok">Fazenda Bacuri — 65 cargas</span>
+        <span class="farm-cargo-item ok">Fazenda Debrasa — 54 cargas</span>
+        <span class="farm-cargo-item ok">Fazenda Indiana — 78 cargas</span>
+        <span class="farm-cargo-item ok">Fazenda Lobo — 92 cargas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen outbound">
+    <div class="head slim"><span>Gestão de Risco Logístico<br>Sinistros e Aderência à Meta</span><span class="head-actions"><span class="tag">Painel 07</span></span></div>
+    <div class="body">
+      <table>
+        <tr><th>Indicador</th><th>Meta</th><th>Realizado</th><th>Status</th></tr>
+        <tr class="st st-danger"><td>Sinistros de carga/mês</td><td>0</td><td>2</td><td><span class="chip danger">ACIMA DA META</span></td></tr>
+        <tr class="st st-danger"><td>% Entregas no prazo</td><td>≥ 95%</td><td>92%</td><td><span class="chip danger">ABAIXO DA META</span></td></tr>
+      </table>
+      <div class="chart-wrap" style="max-height:70px;"><canvas id="c7"></canvas></div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v danger">2</div><div class="l">Sinistros (30d) · meta 0</div></div>
+        <div class="kpi"><div class="v danger">8%</div><div class="l">Atraso entrega · meta ≤5%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen outbound">
+    <div class="head slim"><span>Rastreamento de Cargas em Rota — Frota de 500 Tritrens</span><span class="head-actions"><span class="tag">Painel 08</span></span></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="v" style="font-size:22px;">142</div><div class="l">Cargas em trânsito</div></div>
+        <div class="kpi"><div class="v ok" style="font-size:22px;">121</div><div class="l">Dentro do prazo estimado</div></div>
+        <div class="kpi"><div class="v danger" style="font-size:22px;">21</div><div class="l">Com risco de atraso</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v" style="font-size:17px;">≈ 74 t</div><div class="l">PBTC médio por carga (eucalipto)</div></div>
+        <div class="kpi"><div class="v" style="font-size:17px;">≈ 64 m³</div><div class="l">Volume médio por carga</div></div>
+        <div class="kpi"><div class="v" style="font-size:15px;line-height:1.2;white-space:normal;">Inocência<br>MS</div><div class="l">Origem da carga</div></div>
+      </div>
+      <div class="route-track">
+        <span class="flag start">ORIGEM</span><span class="flag end">DESTINO</span>
+        <div class="truck-pos ok" style="left:80%;"><span class="ring"></span><svg viewBox="0 0 64 64" aria-label="Caminhão carregado de madeira"><g fill="currentColor"><rect x="4" y="22" width="30" height="18" rx="2"/><rect x="8" y="14" width="22" height="7" rx="1" opacity=".55"/><path d="M34 28h13l9 8v4h-22z"/><rect x="41" y="32" width="9" height="7" fill="#FFFCF5" opacity=".85"/><circle cx="16" cy="44" r="6"/><circle cx="46" cy="44" r="6"/><circle cx="16" cy="44" r="2.4" fill="#FFFCF5"/><circle cx="46" cy="44" r="2.4" fill="#FFFCF5"/></g></svg><span class="lbl">#4510 · 80% · No prazo</span></div>
+        <div class="truck-pos warn" style="left:50%;"><span class="ring"></span><svg viewBox="0 0 64 64" aria-label="Caminhão carregado de madeira"><g fill="currentColor"><rect x="4" y="22" width="30" height="18" rx="2"/><rect x="8" y="14" width="22" height="7" rx="1" opacity=".55"/><path d="M34 28h13l9 8v4h-22z"/><rect x="41" y="32" width="9" height="7" fill="#FFFCF5" opacity=".85"/><circle cx="16" cy="44" r="6"/><circle cx="46" cy="44" r="6"/><circle cx="16" cy="44" r="2.4" fill="#FFFCF5"/><circle cx="46" cy="44" r="2.4" fill="#FFFCF5"/></g></svg><span class="lbl">#4488 · 50% · Atenção</span></div>
+        <div class="truck-pos danger" style="left:22%;"><span class="ring"></span><svg viewBox="0 0 64 64" aria-label="Caminhão carregado de madeira"><g fill="currentColor"><rect x="4" y="22" width="30" height="18" rx="2"/><rect x="8" y="14" width="22" height="7" rx="1" opacity=".55"/><path d="M34 28h13l9 8v4h-22z"/><rect x="41" y="32" width="9" height="7" fill="#FFFCF5" opacity=".85"/><circle cx="16" cy="44" r="6"/><circle cx="46" cy="44" r="6"/><circle cx="16" cy="44" r="2.4" fill="#FFFCF5"/><circle cx="46" cy="44" r="2.4" fill="#FFFCF5"/></g></svg><span class="lbl">#4502 · 22% · Atrasado</span></div>
+      </div>
+      <div class="truck-legend">
+        <span><i class="dot" style="background:var(--ok)"></i> No prazo — avançado na rota</span>
+        <span><i class="dot" style="background:var(--warn)"></i> Atenção — risco de atraso</span>
+        <span><i class="dot" style="background:var(--danger)"></i> Atrasado — fora do prazo</span>
+      </div>
+      <table>
+        <tr><th>Carga</th><th>Frota</th><th>Atraso</th><th>Tratativa</th></tr>
+        <tr class="st st-danger"><td>#4471</td><td>Frota Terceira</td><td>2h40</td><td><span class="chip danger">CONTATO TRANSP.</span></td></tr>
+        <tr class="st st-warn"><td>#4488</td><td>Frota Própria</td><td>0h50</td><td><span class="chip warn">MONITORANDO</span></td></tr>
+        <tr class="st st-danger"><td>#4502</td><td>Frota Terceira</td><td>3h15</td><td><span class="chip danger">ROTA ALTERNATIVA</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="screen safety">
+    <div class="head"><span>Indicadores de Gestão à Vista</span><span class="head-actions"><span class="tag">Painel 09</span></span></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="v ok">128</div><div class="l">Dias consecutivos sem acidente</div></div>
+        <div class="kpi"><div class="v warn">1,8</div><div class="l">Índice de Frequência (IF)</div></div>
+        <div class="kpi"><div class="v ok">0,4</div><div class="l">Índice de Gravidade (IG)</div></div>
+      </div>
+      <div class="chart-wrap"><canvas id="c9"></canvas></div>
+    </div>
+  </div>
+
+  <div class="screen safety">
+    <div class="head slim"><span>Quase Acidentes e Conformidade Operacional</span><span class="head-actions"><span class="tag">Painel 10</span></span></div>
+    <div class="body">
+      <div class="two-col" style="flex:1 1 160px;min-height:150px;">
+        <div><canvas id="c13"></canvas></div>
+        <div><canvas id="c13b"></canvas></div>
+      </div>
+      <div class="badge-list"><span class="badge warn">12 colaboradores com treinamento pendente</span></div>
+      <div class="ticker">Fonte: Business Intelligence de Segurança · atualização diária</div>
+    </div>
+  </div>
+
+  <div class="screen safety">
+    <div class="head slim"><span>Indicadores de Impacto Ambiental<br>Projeto Sucuriú</span><span class="head-actions"><span class="tag">Painel 12</span></span></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="v ok">32 m³/t</div><div class="l">Consumo de água por tonelada de celulose</div></div>
+        <div class="kpi"><div class="v ok">0,85 t/t</div><div class="l">Emissões de CO2 por tonelada de celulose</div></div>
+      </div>
+      <div class="badge-list">
+        <span class="badge ok">✓ FSC — Certificado</span>
+        <span class="badge ok">✓ PEFC — Certificado</span>
+      </div>
+      <div class="two-col" style="flex:1 1 130px;min-height:120px;">
+        <div><canvas id="c14a"></canvas></div>
+        <div><canvas id="c14b"></canvas></div>
+      </div>
+      <div class="ticker">Comparação com a média do setor de celulose · Fonte: Relatório de Sustentabilidade Arauco</div>
+    </div>
+  </div>
+
+  <div class="screen safety">
+    <div class="head slim"><span>Custo e Quilometragem Operacional<br>Frota Própria versus Terceirizada</span><span class="head-actions"><span class="tag">Painel 11</span></span></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="v">1.440 km</div><div class="l">Km máx. teórico / caminhão / dia</div></div>
+        <div class="kpi"><div class="v ok">1.224 km</div><div class="l">Km real/dia (85% — 15% parado p/ manut.)</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v">R$ 61,05 mi</div><div class="l">Custo total transporte / mês</div></div>
+        <div class="kpi"><div class="v">18.360.000 km</div><div class="l">Km rodado total / mês (500 cavalos)</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v ok">R$ 3,10/km</div><div class="l">Custo médio — Frota Própria</div></div>
+        <div class="kpi"><div class="v warn">R$ 3,85/km</div><div class="l">Custo médio — Frota Terceira</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v ok">12.852.000 km</div><div class="l">Km — Frota Própria (70% · 350 cavalos)</div></div>
+        <div class="kpi"><div class="v warn">5.508.000 km</div><div class="l">Km — Frota Terceira (30% · 150 cavalos)</div></div>
+      </div>
+      <div class="two-col">
+        <div><canvas id="c16a"></canvas></div>
+        <div><canvas id="c16b"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen safety">
+    <div class="head slim"><span>Disponibilidade Mecânica (DMEC)<br>Cavalos Mecânicos e Implementos</span><span class="head-actions"><span class="tag">Painel 13</span></span></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="v">500</div><div class="l">Total de cavalos mecânicos da frota</div></div>
+        <div class="kpi"><div class="v">1.500</div><div class="l">Total de implementos disponíveis</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v ok">350</div><div class="l">Cavalos mecânicos — Frota Própria</div></div>
+        <div class="kpi"><div class="v warn">150</div><div class="l">Cavalos mecânicos — Frota Terceira</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v ok">1.050</div><div class="l">Implementos alocados — Frota Própria</div></div>
+        <div class="kpi"><div class="v warn">450</div><div class="l">Implementos alocados — Frota Terceira</div></div>
+      </div>
+      <div class="two-col" style="flex:0 0 130px;min-height:130px;">
+        <div><canvas id="c12a"></canvas></div>
+        <div><canvas id="c12b"></canvas></div>
+      </div>
+      <div class="badge-list panel13-bottom">
+        <span class="badge ok">460 cavalos alocados</span>
+        <span class="badge danger">40 cavalos não alocados</span>
+        <span class="badge ok">1.380 implementos alocados</span>
+        <span class="badge danger">120 implementos não alocados</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen safety">
+    <div class="head slim"><span>Registro de Ocorrências e Ações Corretivas</span><span class="head-actions"><span class="tag">Painel 14</span></span></div>
+    <div class="body">
+      <table>
+        <tr><th></th><th>Início</th><th>Ocorrência</th><th>Previsão de Fim</th><th>Status</th></tr>
+        <tr class="st st-ok"><td style="font-size:17px;">🌲</td><td>06/07 22:00</td><td>Fazenda Bacuri com 1 grua em manutenção</td><td>08/07 06:00</td><td><span class="chip ok">PROGRAMADO</span></td></tr>
+        <tr class="st st-warn"><td style="font-size:17px;">🌧️</td><td>07/07 05:40</td><td>Fazenda Lobo parada por chuva</td><td>Sem previsão</td><td><span class="chip warn">ATENÇÃO</span></td></tr>
+        <tr class="st st-danger"><td style="font-size:17px;">🛣️🚧</td><td>07/07 06:30</td><td>BR-262 interditada</td><td>Sem previsão</td><td><span class="chip danger">CRÍTICO</span></td></tr>
+        <tr class="st st-warn"><td style="font-size:17px;">🛣️</td><td>07/07 07:15</td><td>Trânsito elevado na MS-112</td><td>Sem previsão</td><td><span class="chip warn">ATENÇÃO</span></td></tr>
+        <tr class="st st-warn"><td style="font-size:17px;">⚠️</td><td>07/07 07:40</td><td>Near miss — Pátio Inbound</td><td>Sem previsão</td><td><span class="chip warn">EM ANÁLISE</span></td></tr>
+        <tr class="st st-warn"><td style="font-size:17px;">⚠️</td><td>07/07 09:30</td><td>Near miss — Manutenção</td><td>Sem previsão</td><td><span class="chip warn">EM ANÁLISE</span></td></tr>
+        <tr class="st st-ok"><td style="font-size:17px;">🛣️</td><td>07/07 11:00</td><td>Restrição de trânsito das 11h às 14h (feriado)</td><td>07/07 14:00</td><td><span class="chip ok">PROGRAMADO</span></td></tr>
+      </table>
+      <div class="badge-list"><span class="badge warn">2 ações corretivas em aberto</span></div>
+      <div class="section-divider">Itens Resolvidos no Dia Atual</div>
+      <table>
+        <tr><th></th><th>Início</th><th>Ocorrência</th><th>Resolução</th><th>Status</th></tr>
+        <tr class="st st-ok"><td style="font-size:17px;">⚠️</td><td>07/07 08:55</td><td>Cond. insegura — Descarga Outbound</td><td>Resolvido às 08:55</td><td><span class="chip ok">RESOLVIDO</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="screen safety">
+    <div class="head slim"><span>Monitoramento Meteorológico</span><span class="head-actions"><span class="tag">Painel 15</span></span></div>
+    <div class="body" style="padding:0;">
+      <iframe class="embed" src="https://embed.windy.com/embed2.html?lat=-19.73&lon=-51.93&detailLat=-19.73&detailLon=-51.93&width=1300&height=900&zoom=8&level=surface&overlay=wind&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1" loading="lazy" style="min-height:280px;"></iframe>
+    </div>
+  </div>
+
+  <div class="screen safety">
+    <div class="head slim"><span>Mapa Operacional<br>Região de Inocência — Mato Grosso do Sul</span><span class="head-actions"><span class="tag">Painel 16</span></span></div>
+    <div class="body" style="padding:0;">
+      <iframe class="embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115000!2d-51.93!3d-19.73!2m3!1f0!2f0!3f0!3m2!1i2048!2i1536!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDQzJzQ4LjAiUyA1McKwNTUnNDguMCJX!5e1!3m2!1spt-BR!2sbr!4v1700000000000" loading="lazy" style="min-height:280px;"></iframe>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+document.querySelectorAll('.screen').forEach((el,i)=>{ el.classList.add('fade-in'); el.style.animationDelay=(i*0.04)+'s'; });
+
+(function enableWallScrollHelpers(){
+  const wall = document.querySelector('.wall-outer');
+  const topBtn = document.getElementById('scrollTopBtn');
+  const bottomBtn = document.getElementById('scrollBottomBtn');
+  if(!wall) return;
+
+  let isDown=false, startY=0, scrollTop=0, dragAxis=null;
+  wall.addEventListener('mousedown', function(e){
+    if(e.target.closest('button, a, input, select, .theme-menu, .export-menu, iframe, [data-editable="1"]')) return;
+    isDown=true;
+    dragAxis=null;
+    wall.classList.add('dragging');
+    startY=e.pageY;
+    scrollTop=wall.scrollTop;
+  });
+  window.addEventListener('mouseup', function(){ isDown=false; dragAxis=null; wall.classList.remove('dragging'); });
+  window.addEventListener('mouseleave', function(){ isDown=false; dragAxis=null; wall.classList.remove('dragging'); });
+  window.addEventListener('mousemove', function(e){
+    if(!isDown) return;
+    e.preventDefault();
+    wall.scrollTop = scrollTop - (e.pageY - startY);
+  });
+
+  wall.addEventListener('wheel', function(e){
+    if(e.shiftKey) return;
+    e.preventDefault();
+    wall.scrollTop += e.deltaY;
+  }, {passive:false});
+
+  if(topBtn){ topBtn.addEventListener('click', function(){ wall.scrollTo({top:0, left:0, behavior:'smooth'}); }); }
+  if(bottomBtn){ bottomBtn.addEventListener('click', function(){ wall.scrollTo({top:wall.scrollHeight, left:wall.scrollWidth, behavior:'smooth'}); }); }
+})();
+
+const EDIT_STORAGE_KEY='arauco-panel-edits';
+const EDITABLE_SELECTOR='.head span:first-child, .kpi .v, .kpi .l, td, th, .chip, .badge, .farm-cargo-item, .ticker, .maint-flag .txt, .factory-icon-block .cap, .lbl, .truck-legend span, .section-divider';
+let editModeOn=false;
+
+function loadEdits(){
+  try{ return JSON.parse(localStorage.getItem(EDIT_STORAGE_KEY) || '{}'); }catch(e){ return {}; }
+}
+function saveEdits(edits){
+  try{ localStorage.setItem(EDIT_STORAGE_KEY, JSON.stringify(edits)); }catch(e){}
+}
+function showEditToast(msg){
+  let toast=document.getElementById('editSaveToast');
+  if(!toast){
+    toast=document.createElement('div');
+    toast.id='editSaveToast';
+    toast.className='edit-save-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent=msg;
+  toast.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t=setTimeout(()=>toast.classList.remove('show'), 1600);
+}
+function initEditableElements(){
+  const edits=loadEdits();
+  document.querySelectorAll(EDITABLE_SELECTOR).forEach((el,idx)=>{
+    const id='ed-'+idx;
+    el.setAttribute('data-edit-id', id);
+    if(edits[id] !== undefined){ el.innerHTML = edits[id]; }
+  });
+}
+function applyEditableState(on){
+  document.querySelectorAll('[data-edit-id]').forEach(el=>{
+    el.setAttribute('contenteditable', on ? 'true' : 'false');
+    el.setAttribute('data-editable', on ? '1' : '');
+    if(!on) return;
+    if(el._editBound) return;
+    el._editBound = true;
+    el.addEventListener('blur', function(){
+      const edits = loadEdits();
+      edits[el.getAttribute('data-edit-id')] = el.innerHTML;
+      saveEdits(edits);
+      showEditToast('Alteração salva');
+    });
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' && el.tagName !== 'TD' && el.tagName !== 'TH'){ e.preventDefault(); el.blur(); }
+    });
+  });
+}
+function toggleEditMode(){
+  editModeOn = !editModeOn;
+  document.body.classList.toggle('edit-mode', editModeOn);
+  applyEditableState(editModeOn);
+  const btn = document.getElementById('editToggleBtn');
+  btn.classList.toggle('active', editModeOn);
+  btn.textContent = editModeOn ? '✅' : '✏️';
+  if(!editModeOn){ showEditToast('Edição concluída — alterações salvas'); }
+}
+initEditableElements();
+
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  document.querySelectorAll('#themeMenu button').forEach(b=>{
+    b.classList.toggle('active', b.getAttribute('data-theme-opt')===theme);
+  });
+  try{ localStorage.setItem('arauco-theme', theme); }catch(e){}
+}
+function setTheme(theme){
+  applyTheme(theme);
+  document.getElementById('themeMenu').classList.remove('open');
+}
+function toggleThemeMenu(){
+  document.getElementById('themeMenu').classList.toggle('open');
+}
+document.addEventListener('click', function(e){
+  const sw = document.querySelector('.theme-switch');
+  if(sw && !sw.contains(e.target)){ document.getElementById('themeMenu').classList.remove('open'); }
+});
+(function initTheme(){
+  let saved = 'light';
+  try{ saved = localStorage.getItem('arauco-theme') || 'light'; }catch(e){}
+  applyTheme(saved);
+})();
+
+function getPanelLabel(screenEl, idx){
+  const tagEl = screenEl.querySelector('.tag');
+  const titleEl = screenEl.querySelector('.head span:first-child');
+  const num = tagEl ? tagEl.textContent.trim() : ('Painel ' + String(idx+1).padStart(2,'0'));
+  const titleTxt = titleEl ? titleEl.textContent.trim().replace(/\s+/g,' ') : '';
+  return num + (titleTxt ? ' — ' + titleTxt : '');
+}
+function populatePanelSelect(){
+  const sel = document.getElementById('panelSelect');
+  if(!sel) return;
+  sel.innerHTML='';
+  document.querySelectorAll('.wall .screen').forEach((el,idx)=>{
+    const opt = document.createElement('option');
+    opt.value = String(idx);
+    opt.textContent = getPanelLabel(el, idx);
+    sel.appendChild(opt);
+  });
+}
+function toggleExportMenu(){
+  document.getElementById('exportMenu').classList.toggle('open');
+}
+document.addEventListener('click', function(e){
+  const sw = document.querySelector('.export-switch');
+  if(sw && !sw.contains(e.target)){ document.getElementById('exportMenu').classList.remove('open'); }
+});
+
+function downloadDataUrl(dataUrl, filename){
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function replaceEmbedIframesWithPlaceholder(doc){
+  doc.querySelectorAll('iframe.embed').forEach(function(frame){
+    const label = frame.parentElement && frame.parentElement.previousElementSibling
+      ? frame.parentElement.previousElementSibling.querySelector('span')?.textContent || 'Conteúdo interativo'
+      : 'Conteúdo interativo';
+    const holder = doc.createElement('div');
+    holder.style.cssText = 'width:100%;height:100%;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#eef2ee,#dfe6df);color:#3c4a3c;text-align:center;padding:18px;box-sizing:border-box;border-radius:0 0 10px 10px;';
+    holder.innerHTML = '<div style="font-size:40px;">🗺️</div>' +
+      '<div style="font-weight:800;font-size:14px;">' + label + '</div>' +
+      '<div style="font-size:11.5px;line-height:1.5;max-width:320px;opacity:.85;">Este painel exibe um mapa/widget interativo de terceiros.<br>Por segurança do navegador, ele não pode ser incluído na imagem exportada — abra o painel ao vivo na tela para visualizá-lo.</div>';
+    frame.replaceWith(holder);
+  });
+}
+
+function exportSelectedPanel(){
+  const sel = document.getElementById('panelSelect');
+  const idx = parseInt(sel.value, 10);
+  const screens = document.querySelectorAll('.wall .screen');
+  const screenEl = screens[idx];
+  if(!screenEl) return;
+  const btn = document.getElementById('exportBtn');
+  const originalLabel = btn.textContent;
+  btn.textContent = 'Gerando...';
+  html2canvas(screenEl, {scale:6, backgroundColor:'#FFFCF5', useCORS:true, logging:false, imageTimeout:15000, letterRendering:true, onclone:function(clonedDoc){
+
+    clonedDoc.querySelectorAll('.fade-in').forEach(function(el){
+      el.style.animation='none';
+      el.style.opacity='1';
+      el.style.transform='none';
+    });
+    replaceEmbedIframesWithPlaceholder(clonedDoc);
+  }}).then(function(canvas){
+    const imgData = canvas.toDataURL('image/png', 1.0);
+    const tagEl = screenEl.querySelector('.tag');
+    const name = (tagEl ? tagEl.textContent.trim().replace(/\s+/g,'_') : 'Painel') + '.png';
+    downloadDataUrl(imgData, name);
+    btn.textContent = originalLabel;
+    document.getElementById('exportMenu').classList.remove('open');
+  }).catch(function(err){
+    console.error('Erro ao exportar imagem:', err);
+    btn.textContent = originalLabel;
+    alert('Não foi possível exportar o painel em imagem.');
+  });
+}
+
+function exportCompiledView(){
+  const screens = Array.from(document.querySelectorAll('.wall .screen'));
+  if(!screens.length) return;
+  const btn = document.getElementById('exportBtn');
+  const originalLabel = btn.textContent;
+  btn.textContent = 'Gerando (0/' + screens.length + ')...';
+
+  const SCALE = 4;
+  const GAP = 20 * SCALE;
+  const COLS = 4, ROWS = 4;
+
+  const cellW = Math.round(620 * SCALE);
+  const cellH = Math.round(348.75 * SCALE);
+  const master = document.createElement('canvas');
+  master.width = COLS * cellW + (COLS - 1) * GAP;
+  master.height = ROWS * cellH + (ROWS - 1) * GAP;
+  const ctx = master.getContext('2d');
+  ctx.fillStyle = '#F2E9D8';
+  ctx.fillRect(0, 0, master.width, master.height);
+  let done = 0;
+
+  function captureNext(i){
+    if(i >= screens.length){
+
+      const imgData = master.toDataURL('image/png', 1.0);
+      const win = window.open('', '_blank');
+      if(win){
+        win.document.write(
+          '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">' +
+          '<title>ARAUCO — Torre de Controle · Todos os 16 Painéis</title>' +
+          '<style>html,body{margin:0;background:#141210;height:100%;}' +
+          '.bar{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;' +
+          'gap:12px;background:#231d16;color:#F2EAD8;font-family:Arial,sans-serif;padding:10px 18px;' +
+          'box-shadow:0 2px 8px rgba(0,0,0,.4);}' +
+          '.bar a{background:#146C36;color:#fff;text-decoration:none;font-weight:700;font-size:13px;' +
+          'padding:8px 16px;border-radius:6px;}' +
+          '.wrap{width:100%;overflow:auto;text-align:center;padding:16px;box-sizing:border-box;}' +
+          'img{max-width:100%;height:auto;box-shadow:0 4px 20px rgba(0,0,0,.5);border-radius:6px;}' +
+          '</style></head><body>' +
+          '<div class="bar"><span>ARAUCO — Todos os 16 painéis (imagem única em alta resolução)</span>' +
+          '<a id="dl" download="Torre_de_Controle_Compilado_16_Paineis.png" href="' + imgData + '">⬇️ Baixar PNG</a></div>' +
+          '<div class="wrap"><img src="' + imgData + '" alt="Torre de Controle - 16 Painéis"></div>' +
+          '</body></html>'
+        );
+        win.document.close();
+      } else {
+        downloadDataUrl(imgData, 'Torre_de_Controle_Compilado_16_Paineis.png');
+      }
+      btn.textContent = originalLabel;
+      document.getElementById('exportMenu').classList.remove('open');
+      return;
+    }
+    html2canvas(screens[i], {scale:SCALE, backgroundColor:'#FFFCF5', useCORS:true, logging:false, imageTimeout:20000, letterRendering:true, onclone:function(clonedDoc){
+
+      clonedDoc.querySelectorAll('.fade-in').forEach(function(el){
+        el.style.animation='none';
+        el.style.opacity='1';
+        el.style.transform='none';
+      });
+      replaceEmbedIframesWithPlaceholder(clonedDoc);
+    }}).then(function(canvas){
+
+      const col = Math.floor(i / ROWS);
+      const row = i % ROWS;
+      const x = col * (cellW + GAP);
+      const y = row * (cellH + GAP);
+      ctx.drawImage(canvas, x, y, cellW, cellH);
+      done++;
+      btn.textContent = 'Gerando (' + done + '/' + screens.length + ')...';
+      captureNext(i + 1);
+    }).catch(function(err){
+      console.error('Erro ao capturar painel ' + (i+1) + ':', err);
+      btn.textContent = originalLabel;
+      alert('Não foi possível gerar a imagem compilada (falha no painel ' + (i+1) + ').');
+    });
+  }
+  captureNext(0);
+}
+populatePanelSelect();
+
+function tick(){
+  const d = new Date();
+  document.getElementById('clock').textContent = d.toLocaleDateString('pt-BR') + '  ' + d.toLocaleTimeString('pt-BR');
+}
+setInterval(tick,1000); tick();
+
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#12202C';
+const gridOpt = {grid:{color:'#E3E8ED'}};
+
+function bar(id,labels,data,colors,title){
+  new Chart(document.getElementById(id), {
+    type:'bar',
+    data:{labels, datasets:[{data, backgroundColor:colors, borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:!!title,text:title,font:{size:11,weight:'bold'}}},scales:{x:gridOpt,y:gridOpt}}
+  });
+}
+function doughnut(id,label,value,color,title){
+  new Chart(document.getElementById(id), {
+    type:'doughnut',
+    data:{labels:[label,''], datasets:[{data:[value,100-value], backgroundColor:[color,'#E3E8ED'], borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},title:{display:!!title,text:title,font:{size:11,weight:'bold'}},tooltip:{enabled:false}}}
+  });
+}
+function line(id,labels,datasets,title){
+  new Chart(document.getElementById(id), {
+    type:'line',
+    data:{labels, datasets},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{boxWidth:10,font:{size:11}}},title:{display:!!title,text:title,font:{size:11,weight:'bold'}}},scales:{x:gridOpt,y:gridOpt}}
+  });
+}
+
+bar('c1',['07h','08h','09h','10h','11h'],[62,74,87,80,71],['#167637','#B38300','#CB2626','#B38300','#B38300'],'Taxa de Ocupação da Descarga (%)');
+
+bar('c2',['Fazenda Lobo','Fazenda Indiana','Fazenda Bacuri','Fazenda Debrasa'],[1,4,9,2],['#167637','#B38300','#CB2626','#167637'],'Desvios por Fornecedor (qtd. 30d)');
+
+doughnut('c3a','Tora',62,'#6F4A2E','Estoque Tora (dias cobertura)');
+doughnut('c3b','Cavaco',38,'#B38300','Estoque Cavaco (dias cobertura)');
+
+bar('c5',['07h','08h','09h','10h','11h'],[108,271,457,586,689],['#C85A17','#C85A17','#C85A17','#C85A17','#C85A17'],'Carregamentos acumulados no dia (meta 1.000)');
+
+bar('c7',['Sinistros (meta 0)','Sinistros (real)','Atraso% (meta 5)','Atraso% (real)'],[0,2,5,8],['#167637','#CB2626','#167637','#CB2626'],'Metas x Realizado');
+
+line('c9',['Jan','Fev','Mar','Abr','Mai','Jun'],[
+  {label:'Índice de Frequência',data:[2.4,2.1,2.0,1.9,1.8,1.8],borderColor:'#B38300',backgroundColor:'#B38300',tension:.3},
+  {label:'Índice de Gravidade',data:[0.9,0.7,0.6,0.5,0.4,0.4],borderColor:'#167637',backgroundColor:'#167637',tension:.3}
+],'Evolução — Frequência e Gravidade');
+
+Chart.overrides.doughnut = Chart.overrides.doughnut || {};
+doughnut('c12a','Alocados',92,'#167637','Cavalo Mecânico — % Alocado (460/500)');
+doughnut('c12b','Alocados',92,'#167637','Implemento — % Alocado (1.380/1.500)');
+[document.getElementById('c12a'),document.getElementById('c12b')].forEach(function(cv){
+  const ch = Chart.getChart(cv);
+  if(ch){ ch.options.plugins.title.font.size = 13; ch.update(); }
+});
+
+bar('c13',['Pátio Inbound','Descarga Outbound','Manutenção','Transp. Interno'],[6,3,8,2],['#B38300','#167637','#CB2626','#167637'],'Near Miss por Setor (30d)');
+
+bar('c13b',['Checklist Veíc.','Insp. EPI','Treinamentos'],[91,88,76],['#167637','#167637','#B38300'],'Conformidade (%)');
+
+bar('c14a',['Sucuriú','Média Setor'],[32,45],['#167637','#B38300'],'Água (m³ / t celulose)');
+bar('c14b',['Sucuriú','Média Setor'],[0.85,1.35],['#167637','#B38300'],'CO2 (t / t celulose)');
+
+bar('c16a',['Própria (R$/km)','Terceira (R$/km)'],[3.10,3.85],['#167637','#B38300'],'Custo Médio por Km');
+doughnut('c16b','Própria',70,'#167637','% Km Rodado — Própria (70%)');
+</script>
+
+</div>
+
+<script>
+function unlockApp(){
+  document.getElementById('loginGate').style.display='none';
+  document.getElementById('appContent').style.display='flex';
+}
+function setLoginFieldsError(hasError){
+  document.getElementById('loginUserField').classList.toggle('has-error', hasError);
+  document.getElementById('loginPassField').classList.toggle('has-error', hasError);
+}
+function attemptLogin(){
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginError');
+  if(!u || !p){
+    errEl.textContent = '⚠️ Preencha usuário e senha para continuar.';
+    setLoginFieldsError(true);
+    return;
+  }
+  if(u.toLowerCase() === 'tc.arauco-nsm' && p === 'N@thalyMedeiros'){
+    errEl.textContent = '';
+    setLoginFieldsError(false);
+    try{ sessionStorage.setItem('arauco-tc-auth','1'); }catch(e){}
+    unlockApp();
+  } else {
+    errEl.textContent = '⚠️ Usuário ou senha incorretos.';
+    setLoginFieldsError(true);
+  }
+}
+(function setupPassToggle(){
+  const toggleBtn = document.getElementById('loginPassToggle');
+  let lastToggle = 0;
+  function handleToggle(e){
+    if(e && e.cancelable) e.preventDefault();
+    if(e) e.stopPropagation();
+    const now = Date.now();
+    if(now - lastToggle < 250) return;
+    lastToggle = now;
+    const passInput = document.getElementById('loginPass');
+    const isHidden = passInput.type === 'password';
+    passInput.type = isHidden ? 'text' : 'password';
+    toggleBtn.classList.toggle('is-visible', isHidden);
+    toggleBtn.title = isHidden ? 'Ocultar senha' : 'Mostrar senha';
+    toggleBtn.setAttribute('aria-label', toggleBtn.title);
+    passInput.focus();
+  }
+  if(window.PointerEvent){
+    toggleBtn.addEventListener('pointerup', handleToggle);
+  } else {
+    toggleBtn.addEventListener('touchend', handleToggle, {passive:false});
+    toggleBtn.addEventListener('click', handleToggle);
+  }
+})();
+['loginUser','loginPass'].forEach(function(id){
+  document.getElementById(id).addEventListener('input', function(){
+    document.getElementById('loginError').textContent='';
+    setLoginFieldsError(false);
+  });
+});
+document.getElementById('loginForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  attemptLogin();
+});
+(function(){
+  const loginBtn = document.querySelector('.login-btn');
+  let lastTap = 0;
+  function handleTap(e){
+    const now = Date.now();
+    if(now - lastTap < 250) return;
+    lastTap = now;
+    if(e && e.cancelable) e.preventDefault();
+    attemptLogin();
+  }
+  if(window.PointerEvent){
+    loginBtn.addEventListener('pointerup', handleTap);
+  } else {
+    loginBtn.addEventListener('touchend', handleTap, {passive:false});
+  }
+  loginBtn.addEventListener('click', handleTap);
+})();
+(function(){
+  try{
+    if(sessionStorage.getItem('arauco-tc-auth') === '1'){ unlockApp(); }
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>
